@@ -1,12 +1,12 @@
 include("Common.jl")
 
 function planepoints(
-    n,
-    c,
-    rangeX,
-    rangeY,
-    noise
-    )
+    n :: AbstractVector{<:Number},
+    c :: Number,
+    rangeX :: LinRange{<:Number},
+    rangeY :: LinRange{<:Number},
+    noise :: Number
+    ) :: AbstractVecOrMat{<:Number}
     n = n / norm(n,2)
 
     tx = collect(rangeX);
@@ -37,6 +37,6 @@ function planepoints(
     return ps + ns
 end
 
-function get_sep_coords(ps)
+function get_sep_coords(ps :: AbstractVecOrMat{<:Number}) :: Tuple{<:AbstractVector{<:Number},<:AbstractVector{<:Number},<:AbstractVector{<:Number}}
     return (ps[:,1],ps[:,2],ps[:,3])
 end

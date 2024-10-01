@@ -26,4 +26,4 @@ Manifest.toml
 # Nix + Direnv
 *.direnv*
 
-.idea*
+.idea*                  
