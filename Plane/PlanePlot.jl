@@ -6,8 +6,8 @@ function plotplane_withpoints(
     zs :: AbstractVector{<:Number},
     c  :: Number,
     n  :: AbstractVector{<:Number},
-    rangeX :: Tuple{<:Number,<:Number},
-    rangeY :: Tuple{<:Number,<:Number},
+    rangeX,
+    rangeY,
     )
     n = n / norm(n,2)
 
@@ -19,25 +19,29 @@ function plotplane_withpoints(
     j = cross(i,n)
 
 
-    # tx = collect(rangeX)
-    # ty = collect(rangeY)
+    tx = collect(rangeX)
+    ty = collect(rangeY)
 
-    # m1 = length(tx)
-    # m2 = length(ty)
+    m1 = length(tx)
+    m2 = length(ty)
 
-    # tx = repeat(tx,inner = m2)
-    # ty = repeat(ty,outer = m1)
+    tx = repeat(tx,inner = m2)
+    ty = repeat(ty,outer = m1)
 
 
-    # txs = tx * i'
-    # tys = ty * j'
+    print(tx)
 
-    # ts = txs + tys
+    # tx = [rangeX[1]; rangeX[2]; rangeX[2]; rangeX[1]]
+    # ty = [rangeY[1]; rangeY[2]; rangeY[1]; rangeY[2]]
 
-    vertices = [rangeX[1] rangeY[1]; rangeX[1] rangeY[2]; rangeX[2] rangeY[1]; rangeX[2] rangeY[2]]
+    
+    txs = tx * i'
+    tys = ty * j'
 
-    print(p)
-    ps = ones(4,1) * p' + vertices
+    ts = txs + tys
+
+
+    ps = ones(m1 * m2,1) * p' + ts
 
     print(ps)
 
@@ -51,10 +55,13 @@ function plotplane_withpoints(
     # ty = [p[2] + rangeY[1] * i[2], p[2] + rangeY[2] * i[2],p[2] + rangeY[1] * j[2], p[2] + rangeY[2] * j[2]]
     # tz = [p[3] + rangeZ[1] * i[3], p[3] + rangeZ[2] * i[3],p[3] + rangeZ[1] * j[3], p[3] + rangeZ[2] * j[3]]
     ax = Axis3(f[1, 1])
+
+    ylims!(-5,5)
+
     scatter!(f[1, 1],xs,ys,zs)
     #TODO: Fix surface plot
 
-    #surface!(f[1,1],xxs,yys,zzs)
+    meshscatter!(f[1,1],xxs,yys,zzs,markersize = 0.015, color = "red")
 
     return f
 
