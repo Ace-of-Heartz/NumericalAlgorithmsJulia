@@ -43,8 +43,6 @@ function plotplane_withpoints(
 
     ps = ones(m1 * m2,1) * p' + ts
 
-    print(ps)
-
     xxs = ps[:,1]
     yys = ps[:,2]
     zzs = ps[:,3]
