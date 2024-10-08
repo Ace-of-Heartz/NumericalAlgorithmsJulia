@@ -8,16 +8,13 @@ y = @. cos(x)
 a = 1.
 
 X = x -> x 
-DX = x -> 1  
+dX = x -> 1  
 Y = y -> cos(y)
-DY = y -> -sin(y)
+dY = y -> -sin(y)
 
-w1 = (t,x,y) -> (X(t) - x) / (norm([X(t) - x, Y(t) - y]))
-w2 = (t,x,y) -> (Y(t) - y) / (norm([X(t) - x, Y(t) - y]))  
+F = ((x,y),p,t) -> (@. (dX(t) * (X(t) - x) + dY(t) * (Y(t) - y)) * [X(t) - x,Y(t) - y] / a^2)
 
-F = (y,p,t) -> (abs(DX(t) * w1(t,y[1],y[2]) + DY(t) * w2(t,y[1],y[2])) / a ).* [X(t) - y[1],Y(t) - y[2]]
-
-x0 = [1.;1.]
+x0 = [X(0) + a; Y(0)]
 p = [1.;1.]
 
 ode = ODEProblem(F,x0,(0,20))
