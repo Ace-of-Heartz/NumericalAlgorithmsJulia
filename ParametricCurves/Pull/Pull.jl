@@ -2,23 +2,22 @@ using GLMakie
 using DifferentialEquations
 using LinearAlgebra 
 
-x = range(0,20,100)
+x = range(start = 0,stop = 50,length = 200)
 y = @. cos(x)
 
-a = 1.
+a = 2
 
-X = x -> x 
+X = x -> x
 dX = x -> 1  
 Y = y -> cos(y)
 dY = y -> -sin(y)
 
-F = ((x,y),p,t) -> (@. (dX(t) * (X(t) - x) + dY(t) * (Y(t) - y)) * [X(t) - x,Y(t) - y] / a^2)
+F = ((x,y),p,t) -> (@. (dX(t) * (X(t) - x) + dY(t) * (Y(t) - y)) * [X(t) - x;Y(t) - y] / (a^2))
 
-x0 = [X(0) + a; Y(0)]
-p = [1.;1.]
+x0 = [X(0) - a; Y(0)]
 
-ode = ODEProblem(F,x0,(0,20))
-sol = solve(ode)
+ode = ODEProblem(F,x0,(0,50))
+sol = solve(ode,Tsit5(),abstol = 1e-10, reltol = 1e-10)
 
 xs = @. X(x)
 ys = @. Y(x)
@@ -28,6 +27,14 @@ Axis(fig[1,1])
 
 lines!(fig[1,1],xs,ys) 
 
-lines!(fig[1,1],sol[1,:])
+ux = sol[1,1,:]
+uy = sol[2,1,:]
+
+print("""
+    UX: {ux}
+    UY: {uy}
+""")
+
+lines!(fig[1,1],ux,uy)
 
 return fig
