@@ -1,17 +1,17 @@
 include("../Common.jl")
 using GLMakie
 
-w = 0.5 # Speed of "dog" object
-tspan = (1,50); trange = range(0,50)
-u0 = [0.0; 0.0]
+w = 0.8 # Speed of "dog" object
+tspan = (0,50); trange = range(0,stop = 50,length = 500)
+u0 = [1.0;pi/2];
 
 X = x -> x
 Y = x -> sin(x)
 
-F = ((x,y),p,t) -> (@. w / norm([X(t) - x; Y(t) - y]) * [X(t) - x; Y(t) - y]) 
+F = ((x,y),p,t) -> (@. w * normalize([X(t) - x; Y(t) - y]))
 
 prob = ODEProblem(F,u0,tspan)
-sol = solve(prob)
+sol = solve(prob,Tsit5(),abstol = 1e-5,reltol=1e-5)
 
 xs = @. X(trange); ys = @. Y(trange)
 uxs = sol[1,1,:]
@@ -21,7 +21,7 @@ uys = sol[2,1,:]
 fig = Figure()
 axis = Axis(fig[1,1])
 
-scatter!(fig[1,1],xs,ys,color = :red)
-scatter!(fig[1,1],uxs,uys, color = :blue) 
+lines!(fig[1,1],xs,ys,color = :red)
+lines!(fig[1,1],uxs,uys, color = :blue) 
 
 return fig
