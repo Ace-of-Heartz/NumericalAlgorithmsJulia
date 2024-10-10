@@ -18,10 +18,23 @@ uxs = sol[1,1,:]
 uys = sol[2,1,:]
 
 
-fig = Figure()
-axis = Axis(fig[1,1])
+nframes = 30
+framerate = 24
 
-lines!(fig[1,1],xs,ys,color = :red)
+fig = Figure()
+axis = Axis(fig[1, 1])
+
+points = Observable(Point2f[(0,0)])
+
+lineplot = lines(points,color = :red)
+
+record(fig,"chase_anim.gif",(xs,ys);
+    framerate = framerate) do frame 
+        new_point = Point2f(frame)
+        points[] = push!(points[],new_point)
+    end
+
+
 lines!(fig[1,1],uxs,uys, color = :blue) 
 
 return fig

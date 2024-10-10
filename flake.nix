@@ -24,9 +24,11 @@
           stdenv.cc.cc.lib qt5.qtbase qt5Full libGL
           glxinfo
           glfw
+          ffmpeg
         ];
 
         shellHook = ''
+          julia --version 
           nixGLIntel julia
         '';
       };

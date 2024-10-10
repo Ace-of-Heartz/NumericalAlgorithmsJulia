@@ -3,12 +3,11 @@ using DifferentialEquations
 using LinearAlgebra 
 
 x = range(start = 0,stop = 50,length = 200)
-y = @. cos(x)
 
 a = 2
 
-X = x -> x
-dX = x -> 1  
+X = x -> sin(x)
+dX = x -> cos(x)
 Y = y -> cos(y)
 dY = y -> -sin(y)
 
@@ -31,8 +30,8 @@ ux = sol[1,1,:]
 uy = sol[2,1,:]
 
 print("""
-    UX: {ux}
-    UY: {uy}
+    UX: ${ux}
+    UY: ${uy}
 """)
 
 lines!(fig[1,1],ux,uy)
