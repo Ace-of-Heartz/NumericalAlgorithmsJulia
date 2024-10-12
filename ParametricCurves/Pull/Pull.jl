@@ -29,10 +29,6 @@ lines!(fig[1,1],xs,ys)
 ux = sol[1,1,:]
 uy = sol[2,1,:]
 
-print("""
-    UX: ${ux}
-    UY: ${uy}
-""")
 
 lines!(fig[1,1],ux,uy)
 
