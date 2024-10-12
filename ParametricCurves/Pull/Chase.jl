@@ -6,35 +6,55 @@ tspan = (0,50); trange = range(0,stop = 50,length = 500)
 u0 = [1.0;pi/2];
 
 X = x -> x
-Y = x -> sin(x)
+Y = x -> sin(x) 
 
 F = ((x,y),p,t) -> (@. w * normalize([X(t) - x; Y(t) - y]))
 
 prob = ODEProblem(F,u0,tspan)
-sol = solve(prob,Tsit5(),abstol = 1e-5,reltol=1e-5)
+sol = solve(prob,Tsit5(),abstol = 1e-3,reltol=1e-3)
 
 xs = @. X(trange); ys = @. Y(trange)
 uxs = sol[1,1,:]
 uys = sol[2,1,:]
 
 
-nframes = 30
+
 framerate = 24
 
 fig = Figure()
 axis = Axis(fig[1, 1])
 
-points = Observable(Point2f[(0,0)])
 
-lineplot = lines(points,color = :red)
+limits!(axis,
+    minimum(vcat(xs,uxs)),
+    maximum(vcat(xs,uxs)),
+    minimum(vcat(ys,uys)),
+    maximum(vcat(ys,uys))
+    )
 
-record(fig,"chase_anim.gif",(xs,ys);
-    framerate = framerate) do frame 
-        new_point = Point2f(frame)
-        points[] = push!(points[],new_point)
+points1 = Observable(Point2f[(xs[1],ys[1])])
+points2 = Observable(Point2f[(uxs[1],uys[1])])
+
+lines!(fig[1,1],points1,color = :red)
+
+lines!(fig[1,1],points2, color = :blue) 
+
+frames = 1:length(uxs);
+
+print(length(uxs))
+
+record(fig,"chase_anim.gif",frames;
+    framerate = framerate) do k
+        t = sol.t[k]
+
+        new_point1 = Point2f(X(t),Y(t))
+        new_point2 = Point2f(uxs[k],uys[k])
+        points1[] = push!(points1[], new_point1)
+        points2[] = push!(points2[], new_point2)
     end
 
 
-lines!(fig[1,1],uxs,uys, color = :blue) 
+
+
 
 return fig
