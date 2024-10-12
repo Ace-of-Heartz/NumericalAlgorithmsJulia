@@ -1,3 +1,2 @@
 using DifferentialEquations
 using LinearAlgebra
-using FFMPEG
