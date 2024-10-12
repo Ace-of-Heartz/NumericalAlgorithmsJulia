@@ -14,8 +14,9 @@
       };
     in {
       devShells.${system}.default = pkgs.mkShell {
-        buildInputs = [
+        buildInputs = with pkgs; [
           pkgs.nixgl.nixGLIntel
+          pkgs.ffmpeg
         ];
 
         packages = with pkgs; [
@@ -24,13 +25,22 @@
           stdenv.cc.cc.lib qt5.qtbase qt5Full libGL
           glxinfo
           glfw
-          ffmpeg
+          stdenv.cc.cc
+          
         ];
+
+        NIX_LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
+          pkgs.stdenv.cc.cc
+          pkgs.ffmpeg
+        ];
+
+        NIX_LD = builtins.readFile "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
 
         shellHook = ''
           julia --version 
           nixGLIntel julia
         '';
+        
       };
       
     };
