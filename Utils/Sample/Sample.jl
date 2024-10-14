@@ -5,5 +5,18 @@ function create_sample(
 ) :: Array{<:Number}
 
 ys = @. f(xs) 
-ns = noise(size(ys))
+
+m = size(ys)
+
+mtx = noise(m[1])
+for n in m[2:length(m)]
+    ns = noise(n)
+    print(ns)
+    mtx = hcat(mtx,ns)
+end 
+
+#ns = noise(size(ys))
+
+
+return ys + mtx
 end
