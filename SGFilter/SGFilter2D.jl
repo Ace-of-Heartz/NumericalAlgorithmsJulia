@@ -10,13 +10,10 @@
 function sgfilter2d(
     xs :: Array{<:Number},
     fs :: Array{<:Number},
-    M, 
-    nL,
-    nR, 
+    M  :: Number, 
+    nL :: Number,
+    nR :: Number, 
 )
-
-
-
     A = ((-nL:nR)' .^ (M:-1:0))'
     
     (Q,R) = qr(A)
@@ -27,8 +24,6 @@ function sgfilter2d(
     for i in nL + 1: length(fs) - nR
         y = fs[i - nL: i + nR] 
         b[i] = dot(q,y)
-        
-
     end
     return b
 end
