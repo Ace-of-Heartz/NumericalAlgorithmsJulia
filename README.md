@@ -8,6 +8,22 @@
 - Approximation of parametric curves using differential equation solvers 
   - Chase (Chase.jl): An object is constantly moving in the direction of another object with a constant speed value.
   - Pull (Pull.jl): An object is being pulled or pushed by another moving object through a solid, inflexible beam with $d$ length that is attached to the pulled/pushed object in question.
+- Bézier-curves:
+  - Visualization
+  - Degree elevation
+  - Curve splitting
+
+### TODO:
+- Bézier-curves in 3 dimensions
+- Parametric surfaces using Bézier-curves
+- Prey-Predator model
+- Perpendicular and parallel plane/line fitting
+
 ### Gallery
 
+#### Chase.jl: "Dog chasing runner"
 ![Chase.jl](Assets/chase_anim.gif)
+
+
+#### Bézier-curves
+![bezier.gif](Assets/bezier.gif)
