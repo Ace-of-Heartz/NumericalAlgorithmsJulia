@@ -14,7 +14,6 @@
   - Curve splitting
 
 ### TODO:
-- Bézier-curves in 3 dimensions
 - Parametric surfaces using Bézier-curves
 - Prey-Predator model
 - Perpendicular and parallel plane/line fitting
@@ -26,4 +25,11 @@
 
 
 #### Bézier-curves
-![bezier.gif](Assets/bezier.gif)
+
+##### Bézier-curve in 2D space
+![bezier2d.gif](Assets/bezier2d.gif)
+
+##### Bézier-curve in 3D space
+![bezier3d.gif](Assets/bezier3d.gif)
+
+##### Parametric surface defined through Bézier-curves
