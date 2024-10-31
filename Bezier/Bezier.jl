@@ -10,7 +10,7 @@
 """
 function de_casteljau(
     t :: Number,
-    ps :: AbstractVector{<:AbstractVector{<:Number}}
+    ps :: AbstractVector{<:Point}
     ) :: Point
     n = length(ps)
     
@@ -29,7 +29,43 @@ function de_casteljau(
 
     end
     
-    return Point2f(bs_old[1])
+    return Point(bs_old[1])
+end
+
+function de_casteljau_2d(
+    t :: Number,
+    s :: Number,
+    ps :: AbstractVector{<:AbstractVector{<:Point}},
+) :: Point
+    M = length(ps)
+    N = length(ps[1])
+    m = copy(ps)
+
+    temp_n = Vector(undef,N)
+    for k = 1:M
+        for j = 1:N
+            for i = 1:N-j
+            temp_n[i] = m[k][i] * (1-t) + m[k][i+1] * t
+            end
+            m[k] = temp_n 
+        end    
+    end
+
+    v = Vector(undef,M)
+    for k = 1:M
+        v[k] = m[k][1]
+    end
+
+    temp_m = Vector(undef,M)
+
+    for j = 1:M 
+        for i = 1:M-j 
+            temp_m[i] = v[i] * (1-s) + v[i+1] * s 
+        end
+        v = temp_m
+    end
+
+    return v[1]
 end
 
 """
@@ -44,8 +80,8 @@ end
 """
 function de_casteljau_mtx(
     t :: Number,
-    ps :: AbstractVector{<:AbstractVector{<:Number}}
-    ) :: AbstractMatrix{<:AbstractVector{<:Number}}
+    ps :: AbstractVector{<:Point}
+    ) :: AbstractMatrix{<:Point}
     n = length(ps)
 
     mtx = ones(n,n) .* ps
@@ -70,13 +106,28 @@ end
 """
 function constr_sub_curve(
     t :: Number,
-    ps :: AbstractVector{<:AbstractVector{<:Number}},
-    ) :: AbstractVector{<:AbstractVector{<:Number}}
+    ps :: AbstractVector{<:Point} ,
+    ) :: AbstractVector{<:Point}
     
     ns = 1:1:length(ps)
     new_ps = map(n -> de_casteljau(t,ps[1:n]),ns)
 
     return new_ps
+end
+
+function constr_sub_curve(
+    t :: Number,
+    s :: Number,
+    ps :: AbstractVector{<:AbstractVector{<:Point}}
+) :: AbstractVector{<:Point}
+
+    ms = 2:1:length(ps)
+    ns = 2:1:length(ps[1])
+
+    # TODO:
+
+    return new_ps
+
 end
 
 
@@ -88,8 +139,8 @@ end
       
 """
 function elevate_bezier(
-    ps :: AbstractVector{<:AbstractVector{<:Number}}
-    ) :: AbstractVector{<:AbstractVector{<:Number}}
+    ps :: AbstractVector{<:Point}
+    ) :: AbstractVector{<:Point}
     n = length(ps)
 
     new_xs = ones(n + 1)
@@ -114,15 +165,28 @@ end
     Calculates the points of the specified Bézier-curve.
      
 """
-function bezier2d(
-    ps :: AbstractVector{<:AbstractVector{<:Number}},
+function bezier(
+    ps :: AbstractVector{<:Point},
     t_max  :: Number = 1,
     t_step :: Number = 0.01 
 ) :: AbstractVector{<:Point}
     frames = 0:t_step:t_max    
-    ts  = map(t -> de_casteljau(t,ps),frames)
+    ts = map(t -> de_casteljau(t,ps),frames)
     return ts
 end
 
-
+function bezier_surface(
+    ps :: AbstractVector{<:AbstractVector{<:Point}},
+    t_max :: Number = 1,
+    t_step :: Number = 0.01,
+    s_max :: Number = 1,
+    s_step :: Number = 0.01,
+) :: AbstractVector{<:AbstractVector{<:Point}}
+    frames_t = 0:t_step:t_max 
+    frames_s = 0:s_step:s_max
+    print(ps)
+    ts = map(t ->map(s -> de_casteljau_2d(t,s,ps),frames_s),frames_t)
+    print(ps)
+    return ts
+end
 
