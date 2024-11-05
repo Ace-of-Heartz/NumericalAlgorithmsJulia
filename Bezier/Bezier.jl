@@ -41,12 +41,17 @@ function de_casteljau_2d(
     N = length(ps[1])
     m = copy(ps)
 
-    temp_n = Vector(undef,N)
     for k = 1:M
         for j = 1:N
+            temp_n = []
             for i = 1:N-j
-            temp_n[i] = m[k][i] * (1-t) + m[k][i+1] * t
+                push!(temp_n,m[k][i] * (1-t) + m[k][i+1] * t)
             end
+            
+            if(length(temp_n) == 0)
+                break
+            end
+
             m[k] = temp_n 
         end    
     end
@@ -56,15 +61,20 @@ function de_casteljau_2d(
         v[k] = m[k][1]
     end
 
-    temp_m = Vector(undef,M)
 
     for j = 1:M 
+        temp_m = []
         for i = 1:M-j 
-            temp_m[i] = v[i] * (1-s) + v[i+1] * s 
+            push!(temp_m,v[i] * (1-s) + v[i+1] * s) 
         end
+
+        if (length(temp_m) == 0)
+            break
+        end 
+
         v = temp_m
     end
-
+    print("V: $v\n")
     return v[1]
 end
 
@@ -119,14 +129,29 @@ function constr_sub_curve(
     t :: Number,
     s :: Number,
     ps :: AbstractVector{<:AbstractVector{<:Point}}
-) :: AbstractVector{<:Point}
+) #:: AbstractVector{<:AbstractVector{<:Point}}
 
-    ms = 2:1:length(ps)
-    ns = 2:1:length(ps[1])
+    ms = 1:1:length(ps)
+    ns = 1:1:length(ps[1])
+    print("PS: $ps\n")
+    new_ps = map(m -> 
+        map(n ->
+            de_casteljau_2d(t,s,map(p -> p[1:n],ps[1:m]))
+            ,ns)
+        ,ms)
 
-    # TODO:
+    v = []
+    w = []
+    for i in new_ps
+        for j in i 
+            push!(w,Point3f[j])
+        end
+        push!(v,w)
+        w = []
+    end
 
-    return new_ps
+    print("$v\n")
+    return v
 
 end
 
@@ -184,9 +209,7 @@ function bezier_surface(
 ) :: AbstractVector{<:AbstractVector{<:Point}}
     frames_t = 0:t_step:t_max 
     frames_s = 0:s_step:s_max
-    print(ps)
     ts = map(t ->map(s -> de_casteljau_2d(t,s,ps),frames_s),frames_t)
-    print(ps)
     return ts
 end
 
