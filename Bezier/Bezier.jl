@@ -74,7 +74,6 @@ function de_casteljau_2d(
 
         v = temp_m
     end
-    print("V: $v\n")
     return v[1]
 end
 
@@ -201,12 +200,12 @@ function bezier(
 end
 
 function bezier_surface(
-    ps :: AbstractVector{<:AbstractVector{<:Point}},
+    ps :: AbstractVector{<:AbstractVector{<:Point} },
     t_max :: Number = 1,
     t_step :: Number = 0.01,
     s_max :: Number = 1,
     s_step :: Number = 0.01,
-) :: AbstractVector{<:AbstractVector{<:Point}}
+) :: AbstractVector{<:AbstractVector{<:Point} }
     frames_t = 0:t_step:t_max 
     frames_s = 0:s_step:s_max
     ts = map(t ->map(s -> de_casteljau_2d(t,s,ps),frames_s),frames_t)
