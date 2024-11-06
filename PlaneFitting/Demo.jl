@@ -2,7 +2,7 @@ include("PlanePoints.jl");
 include("PlaneFit.jl")
 include("PlanePlot.jl")
 
-function Demo()
+function demo()
     # Parameters: 
     n = [0.,1.,0.5];
     c = -2.;
