@@ -1,6 +1,7 @@
 using GLMakie 
 using LinearAlgebra
 
+include("../Utils/Mesh/Surface.jl")
 include("Bezier.jl")
 
 
@@ -250,23 +251,22 @@ function demo3d_surface()
     ax1 = Axis3(fig[1,1])
     ax2 = Axis3(fig[1,2])
     
-    #ts = bezier_surface(ps,1,0.01,1,0.01)
+    ts = bezier_surface(ps,1,0.01,1,0.01)
 
-    # Iterators.flatten() is very inefficient, possibly find another solution later
-    #points = collect(Iterators.flatten(ps))
-    #meshscatter!(fig[1,1],collect(Iterators.flatten(ts)), color = :red, markersize = 0.01)
-    #scatter!(fig[1,1],points, markersize = 1.)
+    #Iterators.flatten()  is very inefficient, possibly find another solution later
+    meshscatter!(fig[1,1],collect(Iterators.flatten(ts)), color = :red, markersize = 0.01)
 
-    
-    new_ps = constr_sub_curve(
-        0.5,
-        0.5,
-        ps
-    )
 
-    scatter!(fig[1,2],collect(Iterators.flatten(new_ps)))
-    
-    
+    points = collect(Iterators.flatten(ps))
+    scatter!(fig[1,2],points); meshscatter!(fig[1,1],points,markersize = 0.03)
+    for p in ps  
+        lines!(fig[1,2],p,color = :blue)
+    end 
 
+    for i in eachindex(ps)
+        p = map(t -> ps[t][i],1:length(ps))
+        lines!(fig[1,2],p,color = :red)
+    end
     return fig
 end
+
