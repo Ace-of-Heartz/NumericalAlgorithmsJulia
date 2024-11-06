@@ -14,7 +14,7 @@ for n in m[2:length(m)]
     print(ns)
     mtx = hcat(mtx,ns)
 end 
-
+#TODO
 #ns = noise(size(ys))
 
 
