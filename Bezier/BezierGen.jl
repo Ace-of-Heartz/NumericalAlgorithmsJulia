@@ -2,7 +2,6 @@ using GLMakie
 
 include("Bezier.jl")
 include("../Utils/Points.jl")
-include("")
 
 function gen_bezier(
     n :: Number,
@@ -42,6 +41,8 @@ function gen_bezier(
 
     fig = Figure()
     #TODO
+
+    return fig
 end
 """
 function gen_bezier_surf_with_noise(n, noise, f, distance, limits), where 
