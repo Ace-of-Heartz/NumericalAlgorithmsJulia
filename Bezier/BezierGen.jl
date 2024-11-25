@@ -8,10 +8,10 @@ function gen_bezier_2d(
     f :: Function = ((x) -> 0),
     yNoise :: Number = 1,
     xNoise :: Number = 1,
-    distance :: Number = 0.1,
+    #distance :: Number = 0.1,
     limit :: Tuple{<:Number,<:Number} = (0,1),
 )
-    xs,ys = get_points(n,f,distance,limit)
+    xs,ys = get_points(n,f,limit)
     xs += (rand(length(xs)) .* 2 .-1) .* xNoise; ys += (rand(length(ys)) .* 2 .-1) .* yNoise;
 
     ps = map(i -> Point2f(xs[i],ys[i]),eachindex(xs))
@@ -39,17 +39,17 @@ function gen_bezier_2d(
     return fig
 end
 
-function gen_bezier(
+function gen_bezier_3d(
     n :: Number,
     f :: Function = ((x) -> 0),
     g :: Function = ((x,y) -> 0),
     yNoise :: Number = 1,
     xNoise :: Number = 1,
     zNoise :: Number = 1,
-    distance :: Number = 0.1,
+    #distance :: Number = 0.1,
     limits :: Tuple{<:Number,<:Number} = (0,1),
 )
-    xs,ys,zs = get_points(n,f,g,distance,limit)
+    xs,ys,zs = get_points(n,f,g,limit)
     xs += (rand(length(xs)) .* 2 .-1) .* xNoise; ys += (rand(length(ys)) .* 2 .-1) .* yNoise; zs += (rand(length(zs)) .* 2 .-1) .* zNoise;
 
     ps = map(i -> Point3f(xs[i],ys[i],zs[i]),eachindex(xs))
@@ -73,11 +73,11 @@ function gen_bezier_surf(
     n :: AbstractArray{<:Number},
     noise :: Number = 1,
     f :: Function = ((x,y) -> 0),
-    distance :: AbstractArray{<:Number} = [0.1,0.1],
+    #distance :: AbstractArray{<:Number} = [0.1,0.1],
     limits :: AbstractArray{<:Tuple{<:Number,<:Number} } = [(0,1),(0,1)],
     )
 
-    ps = get_surface_points(n,f,distance,limits)
+    ps = get_surface_points(n,f,limits)
 
     xs,ys,zs = ps
 
