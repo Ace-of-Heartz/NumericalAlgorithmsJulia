@@ -52,7 +52,7 @@ function get_points(
     zs = g.(xs,ys)
 
 
-    return (xs,ys)
+    return (xs,ys,zs)
 end
 
 function get_surface_points(

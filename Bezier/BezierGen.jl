@@ -47,7 +47,7 @@ function gen_bezier_3d(
     xNoise :: Number = 1,
     zNoise :: Number = 1,
     #distance :: Number = 0.1,
-    limits :: Tuple{<:Number,<:Number} = (0,1),
+    limit :: Tuple{<:Number,<:Number} = (0,1),
 )
     xs,ys,zs = get_points(n,f,g,limit)
     xs += (rand(length(xs)) .* 2 .-1) .* xNoise; ys += (rand(length(ys)) .* 2 .-1) .* yNoise; zs += (rand(length(zs)) .* 2 .-1) .* zNoise;
@@ -57,7 +57,24 @@ function gen_bezier_3d(
     ts = bezier(ps)
 
     fig = Figure()
-    #TODO
+    ax1 = Axis3(fig[1,1])
+
+    scatter!(fig[1,1],
+        ps,
+        color = :blue,
+        marker = :xcross 
+    )
+
+    lines!(fig[1,1],
+    ps,
+    color = :red
+    )
+    lines!(fig[1,1],
+        ts,
+        color = :black
+    )
+
+
 
     return fig
 end
