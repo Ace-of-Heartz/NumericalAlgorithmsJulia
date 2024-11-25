@@ -76,7 +76,7 @@ function get_surface_points(
     f::Function,
     limits :: AbstractArray{<:Tuple{<:Number,<:Number} } = [(0,1),(0,1)],
 )
-    (xs,ys) = map(i -> range(limits[i][1],limits[i][2],length = n[i]),eachindex(distances))
+    (xs,ys) = map(i -> range(limits[i][1],limits[i][2],length = n[i]),eachindex(n))
 
     xs = collect(xs)
     ys = collect(ys)
