@@ -3,7 +3,7 @@ using GLMakie
 include("Bezier.jl")
 include("../Utils/Points.jl")
 
-function gen_bezier(
+function gen_bezier_2d(
     n :: Number,
     f :: Function = ((x) -> 0),
     yNoise :: Number = 1,
@@ -19,7 +19,24 @@ function gen_bezier(
     ts = bezier(ps)
 
     fig = Figure()
-    #TODO
+    ax = Axis(fig[1,1])
+
+    scatter!(fig[1,1],
+    ps,
+    marker = :xcross
+    )
+
+    lines!(fig[1,1],
+    ps,
+    color = :blue,
+    )
+
+    lines!(fig[1,1],
+    ts,
+    color = :black,
+    )
+
+    return fig
 end
 
 function gen_bezier(
@@ -45,14 +62,14 @@ function gen_bezier(
     return fig
 end
 """
-function gen_bezier_surf_with_noise(n, noise, f, distance, limits), where 
+function gen_bezier_surf(n, noise, f, distance, limits), where 
     n        :: Number - Number of points per dimension 
     noise    :: Symmetrical noise to use on the Z dimension.
     f        :: Function used to generate the Z components of the controlpoints.
     distance :: Array the length of the dimensions used. Specifies the distance between the controlpoints of the different dimensions.
     limits   :: Array the length of the dimensions used. Specifies the lower and upper limits of controlpoints.
 """
-function gen_bezier_surf_with_noise(
+function gen_bezier_surf(
     n :: AbstractArray{<:Number},
     noise :: Number = 1,
     f :: Function = ((x,y) -> 0),
