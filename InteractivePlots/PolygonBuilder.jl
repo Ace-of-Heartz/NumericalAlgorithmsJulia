@@ -2,12 +2,11 @@ using GLMakie
 using LinearAlgebra
 
 IS_EXITING = false
-POINTS :: AbstractArray{<:Point} = Observable(Point2f[])
+POINTS = Observable(Point2f[])
 FIG = Figure()
+AX = Axis(FIG[1,1])
 
-function get_new_point()
-    pick()
-end
+
 
 function plot()
     scatter!(FIG[1,1],POINTS)    
@@ -15,13 +14,27 @@ function plot()
 end
 
 function init() :: Figure
-    Axis(FIG[1,1])
-
+    plot()
     return FIG
 end
 
 function init_events() 
-    on(events(FIG).mouse_buttons, priority = 2) do event  
+    on(events(FIG).mousebutton, priority = 2) do event  
+        if event.button == Mouse.left && event.action == Mouse.press 
+            if Keyboard.a in events(FIG).keyboardstate
+                if length(POINTS[]) == 0
+                    push!(POINTS[],mouseposition(AX))
+                    push!(POINTS[],mouseposition(AX))
+                else 
+                    insert!(POINTS[],length(POINTS[]),mouseposition(AX))
+                end
+
+                notify(POINTS)
+                return Consume(true)
+            end
+        else
+            return Consume(false)
+        end
     end
 end
 
@@ -30,4 +43,5 @@ function main()
     init_events()
 end
 
+main()
 FIG
