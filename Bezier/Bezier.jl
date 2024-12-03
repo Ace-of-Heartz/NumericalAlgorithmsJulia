@@ -1,7 +1,7 @@
 
 
 """
-    de_casteljau(t,xs) :: AbstractMatrix{<:AbstractVector{<:Number}}, where 
+    de_casteljau(t,xs) :: AbstractMatrix{<:AbstractVector{<:Number}}, where
     t :: Number - t ∈ [0,1]
     ps :: AbstractVector{<:AbstractVector{<:Number}} - Two dimensional controlpoints of the Bézier-curve
 

@@ -59,7 +59,7 @@ function plotplane_withpoints(
     scatter!(f[1, 1],xs,ys,zs)
     #TODO: Fix surface plot
 
-    meshscatter!(f[1,1],xxs,yys,zzs,markersize = 0.015, color = "red")
+    meshscatter!(f[1,1],xxs,yys,zzs,markersize = 0.025, color = "red")
 
     return f
 

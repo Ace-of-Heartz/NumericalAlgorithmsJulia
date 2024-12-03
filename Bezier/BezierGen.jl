@@ -78,13 +78,15 @@ function gen_bezier_3d(
 
     return fig
 end
+
 """
-function gen_bezier_surf(n, noise, f, distance, limits), where 
+function gen_bezier_surf(n, noise, f, distance, limits), where\n
     n        :: Number - Number of points per dimension 
     noise    :: Symmetrical noise to use on the Z dimension.
     f        :: Function used to generate the Z components of the controlpoints.
     distance :: Array the length of the dimensions used. Specifies the distance between the controlpoints of the different dimensions.
     limits   :: Array the length of the dimensions used. Specifies the lower and upper limits of controlpoints.
+
 """
 function gen_bezier_surf(
     n :: AbstractArray{<:Number},

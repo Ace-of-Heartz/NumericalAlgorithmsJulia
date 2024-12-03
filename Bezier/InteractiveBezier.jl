@@ -14,14 +14,11 @@ function demo()
 
     fig = Figure()
     axCurr = Axis(fig[1,1])
-    # axPrev = Axis(fig[1,2])
 
 
-    scatter!(fig[1,1],control_points)
-    #scatter!(fig[1,2],control_points[][1:length(control_points[]) - 1])
-    lines!(fig[1,1],control_points)
-    lines!(fig[1,1],ts)
-    #lines!(fig[1,2],control_points[][1:length(control_points[]) - 1])
+    controlpoint = scatter!(fig[1,1],control_points)
+    controlpoint_lin = lines!(fig[1,1],control_points)
+    lin = lines!(fig[1,1],ts)
     
     on(events(fig).mousebutton, priority = 2) do event  
         if event.button == Mouse.left && event.action == Mouse.press 
@@ -38,6 +35,7 @@ function demo()
         end
     end
 
+    Legend(fig[1,2],[controlpoint,controlpoint_lin,lin],["Control points","Lines between control points","Bezier-curve"])
 
     return fig
 end
