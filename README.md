@@ -9,15 +9,19 @@
   - Chase (Chase.jl): An object is constantly moving in the direction of another object with a constant speed value.
   - Pull (Pull.jl): An object is being pulled or pushed by another moving object through a solid, inflexible beam with $d$ length that is attached to the pulled/pushed object in question.
 - Bézier-curves:
+  - Custom generation with optional noise
   - Visualization
   - Degree elevation
   - Curve splitting
+- Bezier-surfaces
+  - Custom generation with optional noise
+  - Visualization
 
 ### TODO:
-- Parametric surfaces using Bézier-curves
 - Prey-Predator model
 - Perpendicular and parallel plane/line fitting
-
+- Implement Bezier-splines, and interactive Bezier-spline manipulation
+- Implement NURBS
 ### Gallery
 
 #### Chase.jl: "Dog chasing runner"
